@@ -16,8 +16,16 @@ public class Escritor {
         this.file = file;
     }
 
+    public void setPath(String path) {
+        file = new File(path);
+    }
+
+    public String getPath() {
+        return file.getPath();
+    }
+
     public void escribe(int id, double nota) throws IOException {
-        file = new File("notas.txt");
+        file = new File(getPath());
         if (!file.canWrite()) {
             throw new FileNotFoundException();
         } else {
@@ -28,7 +36,7 @@ public class Escritor {
         }
     }
     public void escribe(HashMap<Integer, Double> hm) throws IOException {
-        file = new File("notas.txt");
+        file = new File(getPath());
         if (!file.canWrite()) {
             throw new FileNotFoundException();
         } else {

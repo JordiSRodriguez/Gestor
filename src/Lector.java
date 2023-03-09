@@ -16,8 +16,16 @@ public class Lector {
         this.file = file;
     }
 
+    public void setPath(String path) {
+        file = new File(path);
+    }
+
+    public String getPath() {
+        return file.getPath();
+    }
+
     public double lee(int id) throws IOException {
-        file = new File("notas.txt");
+        file = new File(getPath());
         if (!file.exists()){
             file.createNewFile();
         }
@@ -37,7 +45,7 @@ public class Lector {
         }
     }
     public HashMap<Integer, Double> lee() throws IOException {
-        file = new File("notas.txt");
+        file = new File(getPath());
         if (!file.exists()){
             file.createNewFile();
         }

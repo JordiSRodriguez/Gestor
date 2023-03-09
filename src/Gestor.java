@@ -54,11 +54,12 @@ public class Gestor {
                     if (!notas.containsKey(id)) {
                         System.out.println("El id " + id + " no existe");
                     } else {
+                        double notaAntigua = lector.lee(id);
                         // Actualizar la nota del estudiante
                         notas.put(id, nota);
                         // Escribir todas las notas en el archivo
                         escritor.escribe(notas);
-                        System.out.println("Modificada la nota de " + id + ", de " + lector.lee(id) + " a " + nota);
+                        System.out.println("Modificada la nota de " + id + ", de " + notaAntigua + " a " + nota);
                     }
                 }
                 case "d" -> {
@@ -69,11 +70,12 @@ public class Gestor {
                     if (!notas.containsKey(id)) {
                         System.out.println("El id " + id + " no existe");
                     } else {
+                        double notaAntigua = lector.lee(id);
                         // Eliminar la nota del estudiante
                         notas.remove(id);
                         // Escribir todas las notas en el archivo
                         escritor.escribe(notas);
-                        System.out.println("Eliminado id " + id + " con nota " + lector.lee(id));
+                        System.out.println("Eliminado id " + id + " con nota " + notaAntigua);
                     }
                 }
                 default -> {
