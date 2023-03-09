@@ -83,17 +83,14 @@ public class Gestor {
                     System.exit(1);
                 }
             }
-        } catch (
-                NumberFormatException e) {
+        } catch (NumberFormatException e) {
             System.out.println("Error: formato de argumentos incorrecto");
             System.exit(1);
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             System.out.println("Error: no se ha podido acceder al fichero");
             System.exit(1);
-        } catch (
-                ArrayIndexOutOfBoundsException e) {
-            System.out.println("Error: número de argumentos incorrecto");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error: numero de argumentos incorrecto");
             System.exit(1);
         }
 

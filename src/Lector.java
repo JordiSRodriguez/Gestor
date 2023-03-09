@@ -30,7 +30,7 @@ public class Lector {
             file.createNewFile();
         }
         if (!file.canRead()) {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("No se ha podido acceder al archivo");
         } else {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -50,7 +50,7 @@ public class Lector {
             file.createNewFile();
         }
         if (!file.canRead()) {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("No se ha podido acceder al archivo");
         } else {
             HashMap<Integer, Double> hm = new HashMap<Integer, Double>();
             BufferedReader br = new BufferedReader(new FileReader(file));
