@@ -18,8 +18,11 @@ public class Lector {
 
     public double lee(int id) throws IOException {
         file = new File("notas.txt");
+        if (!file.exists()){
+            file.createNewFile();
+        }
         if (!file.canRead()) {
-            throw new FileNotFoundException("No se tienen permisos de lectura en el fichero");
+            throw new FileNotFoundException();
         } else {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -35,8 +38,11 @@ public class Lector {
     }
     public HashMap<Integer, Double> lee() throws IOException {
         file = new File("notas.txt");
+        if (!file.exists()){
+            file.createNewFile();
+        }
         if (!file.canRead()) {
-            throw new FileNotFoundException("No se tienen permisos de lectura en el fichero");
+            throw new FileNotFoundException();
         } else {
             HashMap<Integer, Double> hm = new HashMap<Integer, Double>();
             BufferedReader br = new BufferedReader(new FileReader(file));

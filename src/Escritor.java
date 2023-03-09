@@ -19,7 +19,7 @@ public class Escritor {
     public void escribe(int id, double nota) throws IOException {
         file = new File("notas.txt");
         if (!file.canWrite()) {
-            throw new FileNotFoundException("No se tienen permisos de escritura en el fichero");
+            throw new FileNotFoundException();
         } else {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.write(id + " " + nota);
@@ -30,7 +30,7 @@ public class Escritor {
     public void escribe(HashMap<Integer, Double> hm) throws IOException {
         file = new File("notas.txt");
         if (!file.canWrite()) {
-            throw new FileNotFoundException("No se tienen permisos de escritura en el fichero");
+            throw new FileNotFoundException();
         } else {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for (Integer key : hm.keySet()) {
