@@ -3,6 +3,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Gestor {
+
+    /**
+     * El hashmap que contiene los identificadores y las notas.
+     */
+    private static HashMap<Integer, Double> hm;
+
     public static void main(String[] args) {
         try {
             String operacion = args[0];
@@ -14,7 +20,6 @@ public class Gestor {
             }
             Lector lector = new Lector(new File(path));
             Escritor escritor = new Escritor(new File(path));
-            HashMap<Integer, Double> notas;
             switch (operacion) {
                 case "w" -> {
                     write(args, path, id, nota, lector, escritor);
@@ -46,13 +51,25 @@ public class Gestor {
 
     }
 
+
+    /**
+     * Escribe una nota de un estudiante concreto indicando su id y su nota.
+     * @param args Los argumentos de la línea de comandos.
+     * @param path El path del fichero.
+     * @param id  El identificador del estudiante.
+     * @param nota La nota del estudiante.
+     * @param lector El lector de ficheros.
+     * @param escritor El escritor de ficheros.
+     * @throws IOException Si no se puede acceder al fichero.
+     * @throws NumberFormatException Si el id o la nota no son números.
+     * @throws ArrayIndexOutOfBoundsException Si no se introducen los argumentos correctos.
+     */
     private static void write(String[] args, String path, int id, double nota, Lector lector, Escritor escritor) throws IOException {
-        HashMap<Integer, Double> notas;
         if (args.length != 4) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        notas = lector.lee();
-        if (notas.containsKey(id)) {
+        hm = lector.lee();
+        if (hm.containsKey(id)) {
             System.out.println("El id " + id + " ya existe");
         } else {
             escritor.escribe(id, nota);
@@ -60,20 +77,28 @@ public class Gestor {
         }
     }
 
+    /**
+     * Lee una nota de un estudiante concreto indicando su id o todas las notas si se introduce -1.
+     * @param args Los argumentos de la línea de comandos.
+     * @param id   El identificador del estudiante.
+     * @param lector El lector de ficheros.
+     * @throws IOException Si no se puede acceder al fichero.
+     * @throws NumberFormatException Si el id no es un número.
+     * @throws ArrayIndexOutOfBoundsException Si no se introducen los argumentos correctos.
+     */
     private static void read(String[] args, int id, Lector lector) throws IOException {
-        HashMap<Integer, Double> notas;
         double nota;
         if (args.length != 3) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        notas = lector.lee();
+        hm = lector.lee();
         if (id == -1) {
-            for (Integer i : notas.keySet()) {
-                System.out.println("La nota de " + i + " es " + notas.get(i));
+            for (Integer i : hm.keySet()) {
+                System.out.println("La nota de " + i + " es " + hm.get(i));
             }
         } else {
             nota = lector.lee(id);
-            if (!notas.containsKey(id)) {
+            if (!hm.containsKey(id)) {
                 System.out.println("El id " + id + " no existe");
             } else {
                 System.out.println("La nota de " + id + " es " + nota);
@@ -81,38 +106,55 @@ public class Gestor {
         }
     }
 
+    /**
+     * Modifica la nota de un estudiante concreto introduciendo su id y la nueva nota.
+     * @param args Los argumentos de la línea de comandos.
+     * @param id   El identificador del estudiante.
+     * @param nota La nueva nota del estudiante.
+     * @param lector El lector de ficheros.
+     * @param escritor El escritor de ficheros.
+     * @throws IOException Si no se puede acceder al fichero.
+     */
     private static void modify(String[] args, int id, double nota, Lector lector, Escritor escritor) throws IOException {
-        HashMap<Integer, Double> notas;
         if (args.length != 4) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        notas = lector.lee();
-        if (!notas.containsKey(id)) {
+        hm = lector.lee();
+        if (!hm.containsKey(id)) {
             System.out.println("El id " + id + " no existe");
         } else {
             double notaAntigua = lector.lee(id);
             // Actualizar la nota del estudiante
-            notas.put(id, nota);
-            // Escribir todas las notas en el archivo
-            escritor.escribe(notas);
+            hm.put(id, nota);
+            // Escribir todas las hm en el archivo
+            escritor.escribe(hm);
             System.out.println("Modificada la nota de " + id + ", de " + notaAntigua + " a " + nota);
         }
     }
 
+    /**
+     * Elimina la nota de un estudiante concreto introduciendo su id.
+     * @param args Los argumentos de la línea de comandos.
+     * @param id   El identificador del estudiante.
+     * @param lector El lector de ficheros.
+     * @param escritor El escritor de ficheros.
+     * @throws IOException Si no se puede acceder al fichero.
+     * @throws NumberFormatException Si el id no es un número.
+     * @throws ArrayIndexOutOfBoundsException Si no se introducen los argumentos correctos.
+     */
     private static void delete(String[] args, int id, Lector lector, Escritor escritor) throws IOException {
-        HashMap<Integer, Double> notas;
         if (args.length != 3) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        notas = lector.lee();
-        if (!notas.containsKey(id)) {
+        hm = lector.lee();
+        if (!hm.containsKey(id)) {
             System.out.println("El id " + id + " no existe");
         } else {
             double notaAntigua = lector.lee(id);
             // Eliminar la nota del estudiante
-            notas.remove(id);
-            // Escribir todas las notas en el archivo
-            escritor.escribe(notas);
+            hm.remove(id);
+            // Escribir todas las hm en el archivo
+            escritor.escribe(hm);
             System.out.println("Eliminado id " + id + " con nota " + notaAntigua);
         }
     }
