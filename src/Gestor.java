@@ -17,66 +17,16 @@ public class Gestor {
             HashMap<Integer, Double> notas;
             switch (operacion) {
                 case "w" -> {
-                    if (args.length != 4) {
-                        throw new ArrayIndexOutOfBoundsException();
-                    }
-                    notas = lector.lee();
-                    if (notas.containsKey(id)) {
-                        System.out.println("El id " + id + " ya existe");
-                    } else {
-                        escritor.escribe(id, nota);
-                        System.out.println("Guardado el id " + id + " con nota " + nota + " en " + path);
-                    }
+                    write(args, path, id, nota, lector, escritor);
                 }
                 case "r" -> {
-                    if (args.length != 3) {
-                        throw new ArrayIndexOutOfBoundsException();
-                    }
-                    notas = lector.lee();
-                    if (id == -1) {
-                        for (Integer i : notas.keySet()) {
-                            System.out.println("La nota de " + i + " es " + notas.get(i));
-                        }
-                    } else {
-                        nota = lector.lee(id);
-                        if (!notas.containsKey(id)) {
-                            System.out.println("El id " + id + " no existe");
-                        } else {
-                            System.out.println("La nota de " + id + " es " + nota);
-                        }
-                    }
+                    read(args, id, lector);
                 }
                 case "m" -> {
-                    if (args.length != 4) {
-                        throw new ArrayIndexOutOfBoundsException();
-                    }
-                    notas = lector.lee();
-                    if (!notas.containsKey(id)) {
-                        System.out.println("El id " + id + " no existe");
-                    } else {
-                        double notaAntigua = lector.lee(id);
-                        // Actualizar la nota del estudiante
-                        notas.put(id, nota);
-                        // Escribir todas las notas en el archivo
-                        escritor.escribe(notas);
-                        System.out.println("Modificada la nota de " + id + ", de " + notaAntigua + " a " + nota);
-                    }
+                    modify(args, id, nota, lector, escritor);
                 }
                 case "d" -> {
-                    if (args.length != 3) {
-                        throw new ArrayIndexOutOfBoundsException();
-                    }
-                    notas = lector.lee();
-                    if (!notas.containsKey(id)) {
-                        System.out.println("El id " + id + " no existe");
-                    } else {
-                        double notaAntigua = lector.lee(id);
-                        // Eliminar la nota del estudiante
-                        notas.remove(id);
-                        // Escribir todas las notas en el archivo
-                        escritor.escribe(notas);
-                        System.out.println("Eliminado id " + id + " con nota " + notaAntigua);
-                    }
+                    delete(args, id, lector, escritor);
                 }
                 default -> {
                     System.out.println("Error: operación incorrecta");
@@ -95,4 +45,76 @@ public class Gestor {
         }
 
     }
+
+    private static void write(String[] args, String path, int id, double nota, Lector lector, Escritor escritor) throws IOException {
+        HashMap<Integer, Double> notas;
+        if (args.length != 4) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        notas = lector.lee();
+        if (notas.containsKey(id)) {
+            System.out.println("El id " + id + " ya existe");
+        } else {
+            escritor.escribe(id, nota);
+            System.out.println("Guardado el id " + id + " con nota " + nota + " en " + path);
+        }
+    }
+
+    private static void read(String[] args, int id, Lector lector) throws IOException {
+        HashMap<Integer, Double> notas;
+        double nota;
+        if (args.length != 3) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        notas = lector.lee();
+        if (id == -1) {
+            for (Integer i : notas.keySet()) {
+                System.out.println("La nota de " + i + " es " + notas.get(i));
+            }
+        } else {
+            nota = lector.lee(id);
+            if (!notas.containsKey(id)) {
+                System.out.println("El id " + id + " no existe");
+            } else {
+                System.out.println("La nota de " + id + " es " + nota);
+            }
+        }
+    }
+
+    private static void modify(String[] args, int id, double nota, Lector lector, Escritor escritor) throws IOException {
+        HashMap<Integer, Double> notas;
+        if (args.length != 4) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        notas = lector.lee();
+        if (!notas.containsKey(id)) {
+            System.out.println("El id " + id + " no existe");
+        } else {
+            double notaAntigua = lector.lee(id);
+            // Actualizar la nota del estudiante
+            notas.put(id, nota);
+            // Escribir todas las notas en el archivo
+            escritor.escribe(notas);
+            System.out.println("Modificada la nota de " + id + ", de " + notaAntigua + " a " + nota);
+        }
+    }
+
+    private static void delete(String[] args, int id, Lector lector, Escritor escritor) throws IOException {
+        HashMap<Integer, Double> notas;
+        if (args.length != 3) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        notas = lector.lee();
+        if (!notas.containsKey(id)) {
+            System.out.println("El id " + id + " no existe");
+        } else {
+            double notaAntigua = lector.lee(id);
+            // Eliminar la nota del estudiante
+            notas.remove(id);
+            // Escribir todas las notas en el archivo
+            escritor.escribe(notas);
+            System.out.println("Eliminado id " + id + " con nota " + notaAntigua);
+        }
+    }
+
 }
